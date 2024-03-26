@@ -4,9 +4,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using WebBanHang_Lab03.Models;
 using WebBanHang_Lab03.Repositories;
 
-namespace WebBanHang_Lab03.Controllers
+namespace WebBanHang_Lab03.Areas.Admin.Controllers
 {
-    
+    [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
     public class ProductController : Controller
     {
         private readonly IProductRepository _productRepository;
