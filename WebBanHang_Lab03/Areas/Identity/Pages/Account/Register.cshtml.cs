@@ -100,6 +100,7 @@ namespace WebBanHang_Lab03.Areas.Identity.Pages.Account
             public string? Role { get; set; }
             [ValidateNever]
             public IEnumerable<SelectListItem> RoleList { get; set; }
+            
         }
 
 

@@ -1,0 +1,117 @@
+﻿@model ShoppingCart
+
+@{
+    //Errors object model ở trang view: Xem lại có return View(product) ở trang Index() hay chưa
+}
+<h4>Giỏ Hàng</h4>
+<div class="container">
+    <div class="row">
+        <div class="col-xl-8">
+            @if (Model.Items.Count > 0)
+            {
+                @foreach (var item in Model.Items)
+                {
+                    <div class="card border shadow-none">
+                        <div class="card-body">
+                            <div class="d-flex align-items-start border-bottom pb-3">
+                                <div class="flex-grow-1 align-self-center overflow-hidden">
+                                    <div>
+                                        <h5 class="text-truncate font-size-18"><a href="#" class="text-dark">@item.Name</a></h5>
+                                    </div>
+                                </div>
+                                <div class="flex-shrink-0 ms-2">
+                                    <ul class="list-inline mb-0 font-size-16">
+                                        <li class="list-inline-item">
+                                            <a class="text-danger px-1" asp-action="RemoveFromCart" asp-controller="ShoppingCart" asp-route-productId="@item.ProductId">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="mt-3">
+                                            <p class="text-muted mb-2">Price</p>
+                                            <h5 class="mb-0 mt-2">$@item.Price</h5>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="mt-3">
+                                            <p class="text-muted mb-2">Quantity</p>
+                                            <div class="d-inline-flex">
+                                                <a class="btn btn-primary btn-sm mx-2" asp-action="Increase" asp-controller="Cart" asp-route-id="@item.ProductId"> + </a>
+                                                <input type="text" class="text-center" name="quantity" value="@item.Quantity" autocomplete="off" size="2">
+                                                <a class="btn btn-primary btn-sm mx-2" asp-action="Decrease" asp-controller="Cart" asp-route-id="@item.ProductId"> - </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            }
+            else
+            {
+                <h4>Your cart is empty</h4>
+            }
+
+            <!-- end card -->
+            <div class="row my-4">
+                <div class="col-sm-6">
+                    @if (Model.Items.Count > 0)
+                    {
+                        <a class="btn btn-danger" asp-action="Clear" asp-controller="Cart">
+                            <i class="mdi mdi-trash-can-outline"></i> Clear Cart
+                        </a>
+                    }
+                    else
+                    {
+                        <div></div>
+                    }
+                </div> <!-- end col -->
+                <div class="col-sm-6">
+                    <div class="text-sm-end mt-2 mt-sm-0">
+                        <a class="btn btn-success" asp-action="Checkout" asp-controller="ShoppingCart">
+                            <i class="mdi mdi-cart-outline me-1"></i> Checkout
+                        </a>
+                    </div>
+                </div> <!-- end col -->
+            </div> <!-- end row-->
+        </div>
+
+        <div class="col-xl-4">
+            <div class="mt-5 mt-lg-0">
+                <div class="card border shadow-none">
+                    <div class="card-header bg-transparent border-bottom py-3 px-4">
+                        <h5 class="font-size-16 mb-0">Order Summary <span class="float-end">#MN0124</span></h5>
+                    </div>
+                    <div class="card-body p-4 pt-2">
+
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <tbody>
+                                    <tr>
+                                        <td>Sub Total :</td>
+                                        <td class="text-end">
+                                            $@foreach (var item in Model.Items)
+                                            {
+                                                @Model.Items.Where(x => x.ProductId == item.ProductId).Sum(x => x.Quantity * x.Price).ToString()
+                                            }
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- end table-responsive -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end row -->
+
+</div>
